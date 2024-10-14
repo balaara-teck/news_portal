@@ -1,0 +1,57 @@
+# Python Bytecode
+*.py[cod]
+__pycache__/
+*.so
+
+# Django and Local Environment Settings
+*.env
+.env.*
+db.sqlite3
+db.sqlite3-journal
+
+# Django Migrations
+**/migrations/*
+!**/migrations/__init__.py
+
+# Static and Media Files
+staticfiles/
+media/
+
+# Ignore virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# Ignore OS files
+.DS_Store
+Thumbs.db
+
+# Logs and Debug Files
+*.log
+*.pot
+*.pyc
+*.pyo
+*.pyd
+*.swp
+*.swo
+*.swn
+
+# IDEs and Editors
+.vscode/
+.idea/
+
+# Coverage and Test Reports
+htmlcov/
+.coverage
+.tox/
+*.cover
+coverage.xml
+nosetests.xml
+*.prof
+.pytest_cache/
+test_reports/
+
+# Temporary Files
+*.bak
+*.tmp
