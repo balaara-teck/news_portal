@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title %}Google Login Consent | Nustrat Admadiyya College{% endblock title %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <div class="card shadow-lg p-4" style="max-width: 500px; width: 100%; border-radius: 15px;">
+        <div class="card-body text-center">
+            <h1 class="card-title mb-4">Authentication with Google</h1>
+            <p class="card-text text-muted mb-4">
+                You are about to log in with your Google account. By proceeding, you consent to allow us to access your Google profile information, which is required for account creation and login.
+            </p>
+            <form method="post" action="{% provider_login_url 'google' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary btn-lg w-100 mb-3" style="border-radius: 25px;">
+                    <i class="fab fa-google me-2"></i>Continue with Google
+                </button>
+            </form>
+            <a href="{% url 'account_login' %}" class="btn btn-outline-secondary w-100" style="border-radius: 25px;">
+                Cancel
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock content %}

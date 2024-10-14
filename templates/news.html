@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+{% block title%}Creating News | Nustrat Admadiyya College {%endblock title%}
+    {% block content %}
+    <div class="container">
+        <div class="news-container">
+            <h2 class="news-form-title">Create a News Article</h2>
+            <form method="POST" >
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" class="form-control" id="title" name="title" placeholder="Enter the title" required>
+                </div>
+                <div class="mb-3">
+                    <label for="category" class="form-label">Category</label>
+                    <select class="form-select w-100"  id="category" name="category" required>
+                        <option selected disabled>Select a category</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Health">Health</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Entertainment">Entertainment</option>
+                        <option value="Entertainment">Education</option>
+                        <option value="Science">Science</option>
+                        <option value="Entertainment">Culture</option>
+                        <option value="Entertainment">Africa</option>
+                        <option value="Entertainment">World</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="body" class="form-label">Body</label>
+                    <textarea class="form-control" id="body" name="body" rows="20" placeholder="Write the article body..." required></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary w-100">Submit Article</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    {% endblock content%}
+
+   

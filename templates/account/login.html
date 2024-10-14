@@ -1,0 +1,57 @@
+{% extends "index.html" %}
+{% load static %}
+{% load socialaccount %}
+
+{% block title%}User Login | Nustrat Admadiyya College {%endblock title%}
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="d-none d-lg-block col-md-6 ">
+            <img  class="w-100 logo-login " src="{% static 'images/logo.jpeg' %}" alt="">
+        </div>
+        <div class="col-md-8 col-lg-6 login-container">
+            <h3 class="text-center mb-4">Login</h3>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger mt-3 small p-1 text-center">
+                {{ form.non_field_errors.0 }}
+            </div>
+             {% endif %}
+
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-floating mb-3">
+                    <input type="text" name="login" class="form-control bg-body-tertiary" id="floatingInput" placeholder="name@example.com">
+                    {% if form.login.errors %}
+                        <small class="text-danger">{{ form.login.errors.0 }}</small>
+                    {% endif %}
+                    <label for="floatingInput">Username or Email address:</label>
+                    
+                  </div>
+                  <div class="form-floating">
+                    <input type="password" name="password" class="form-control bg-body-tertiary" id="floatingPassword" placeholder="Password">
+                    <label for="floatingPassword">Password:</label>
+                    <div class="text-end"><a  href="{% url 'account_reset_password' %}" class="text-decoration-none small">Forgot password?</a></div>
+                    {% if form.password.errors %}
+                        <small class="text-danger">{{ form.password.errors.0 }}</small>
+                    {% endif %}
+                    
+                  </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" class="form-check-input" id="remember" name="remember">
+                    <label class="form-check-label" for="remember">Remember me</label>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block w-100">Login</button>
+            </form>
+            <div class="text-center mt-4">
+                <p>Or log in with</p>
+                <a href="{% provider_login_url 'google' %}" class="btn btn-danger btn-block mb-2 w-100"><i class="fab fa-google me-2"></i>Login with Google</a>
+                <a href="#" class="btn btn-primary btn-block w-100">Login with Facebook</a>
+            </div>
+            <div class="text-center mt-3">
+                <p>Don't have an account? <a href="{% url 'account_signup' %}">Sign up here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,55 @@
+{% extends "index.html" %}
+{% load static %}
+
+{% block title%}User Register | Nustrat Admadiyya College {%endblock title%}
+{% block content %}
+<div class="container mt-5 pt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 login-container">
+            <h3 class="text-center mb-4">Sign Up</h3>
+
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger mt-3 small p-1 text-center">
+                {{ form.non_field_errors.0 }}
+            </div>
+             {% endif %}
+
+            <form method="POST" action="{% url 'account_signup' %}">
+                {% csrf_token %}               
+                <div class="form-group mb-3">
+                    <label for="username">Username</label>
+                    <input type="text" class="form-control" id="username" name="username">
+                    {% if form.username.errors %}
+                        <small class="text-danger">{{ form.username.errors.0 }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="email">Email</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                    {% if form.email.errors %}
+                        <small class="text-danger">{{ form.email.errors.0 }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-3">
+                    <label for="password1">Password</label>
+                    <input type="password" class="form-control" id="password1" name="password1">
+                    {% if form.password1.errors %}
+                        <small class="text-danger">{{ form.password1.errors.0 }}</small>
+                    {% endif %}
+                </div>
+                <div class="form-group mb-2">
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" class="form-control" id="password2" name="password2" >
+                    {% if form.password2.errors %}
+                        <small class="text-danger">{{ form.password2.errors.0 }}</small>
+                    {% endif %}
+                </div>
+                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+            </form>           
+            <div class="text-center mt-3">
+                <p>Already have an account? <a href="{% url 'account_login' %}">Log in here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

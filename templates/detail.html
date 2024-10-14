@@ -1,0 +1,38 @@
+{% extends "index.html" %}
+{% load static %}
+{% load humanize %}
+{% block title%}Reading News | Nustrat Admadiyya College {%endblock title%}
+{% block content %}
+<main id="news-main" class="">
+  <div class="news-detail">
+    <div class="news-section">
+      <h1>{{news.title}}</h1>
+      <p class="date-posted">Posted on: {{news.date}}</p>
+      <p class="news-content">
+        {{news.body|linebreaks}}
+      </p>
+    </div>
+    <div class="comments-sidebar">
+      <h2>Comments:{{no_of_comments}}K</h2>
+      <hr>
+      <div class="comments">
+        {% for comment in comments reversed %}
+        <div >
+            <strong><img class="profile-pic" src="{% static 'images/logo.jpeg' %}" alt="Profile Picture">{{comment.user}}</strong> 
+            <p class="m-0"> {{comment.body}}</p>
+            <p class="comment-time m-0 text-info">{{comment.date|naturaltime}}</p>
+            <hr class="m-0 p-0">
+        </div> 
+        {% endfor%}
+      </div>
+      <form method="POST" action="{% url 'readnews' news.id 'comment'%}">
+        {% csrf_token%}
+      <div class="comment-input">
+        <textarea name="body" placeholder="Write a comment..."></textarea>
+        <button type="submit">Post Comment</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</main>
+{% endblock content %}

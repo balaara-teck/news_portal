@@ -1,0 +1,292 @@
+/* general style */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+
+header {
+    position: fixed;
+    width: 100%;
+    left: 0;
+    right: 0;
+    z-index: 2;
+    top: 0;
+    cursor: pointer;
+}
+
+.logo {
+    width: 40px;
+    filter: brightness(98%);
+}
+
+.logo-login {
+  
+  filter: brightness(98%);
+}
+
+.profile-pic {
+    width: 30px;
+    filter: brightness(98%);
+    border-radius: 50%;
+}
+
+header,main,footer{
+    max-width: 1300px;
+    margin: auto;
+}
+
+main {
+    margin-top: 40px;
+}
+
+/* end of general styling */
+
+/* styling of index.html */
+.news-card {
+    margin-bottom: 20px;
+    transition: transform 1s ease;
+    
+}
+
+.news-card:hover {
+    transform: scale(1.01);
+}
+
+
+.news-title a {
+    text-decoration: none;
+    font-size: 1.4rem;
+    font-weight: bold; 
+}
+
+.news-title a:hover {
+    text-decoration: underline;
+}
+
+.news-date {
+    font-size: .9rem;
+    color: #6c757d;
+}
+
+.news-body {
+    font-size: .9rem;
+    margin-top: 10px;
+}
+
+.horizontal-categories {
+    display: flex;
+    overflow-x: auto;
+    white-space: nowrap;
+    padding: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+.horizontal-categories a {
+    margin-right: 15px;
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+.horizontal-categories a:hover {
+    text-decoration: underline;
+}
+
+@media (max-width: 576px) {
+    .news-title {
+        font-size: 1rem;
+    }
+}
+
+/* end of index.html styling */
+
+/* styling detail.html */
+
+
+#news-main {
+    font-family:Arial, Helvetica, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f4f9;
+    min-height: 100vh;
+  
+  }
+.no-news {
+  max-height: 100vh;
+}
+
+.news-detail {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+
+.news-section {
+  flex-grow: 1;
+  overflow-y: auto;
+  height: 100vh;
+  padding-left: 10px;
+  padding-top: 40px;
+  padding-right: 10px;
+
+  
+}
+
+.news-section h1 {
+  font-size: 20px;
+  color: #333;
+  font-weight: bold;
+}
+
+.date-posted {
+  font-size: 14px;
+  color: #777;
+  margin-top: 5px;
+  margin-bottom: 15px;
+}
+
+.news-content {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #555;
+}
+
+.comment-time {
+    text-align: right;
+
+}
+
+.comments-sidebar {
+  padding: 20px;
+  background-color: #f8f9fb;
+  border-left: 1px solid #ddd;
+  display: none;
+}
+
+.comments-sidebar h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+.comments {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+}
+
+.comments p {
+  margin-bottom: 10px;
+  font-size: 14px;
+  color: #333;
+}
+
+.comment-input {
+  display: flex;
+  flex-direction: column;
+}
+
+.comment-input textarea {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  resize: none;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.comment-input button {
+  padding: 3px;
+  font-size: 14px;
+  color: white;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.comment-input button:hover {
+  background-color: #0056b3;
+}
+
+
+@media (min-width: 992px) {
+  .news-detail {
+    flex-direction: row;
+  }
+
+  .news-section {
+    width: 70%;
+    max-height: 600px; 
+    padding: 30px;
+  }
+
+  .comments-sidebar {
+    display: block;
+    width: 30%;
+  }
+}
+
+@media (max-width: 991px) {
+  .comments-sidebar {
+    display: block;
+    width: 100%;
+    border-left: none;
+    border-top: 1px solid #ddd;
+  }
+}
+
+
+/* end of detail.html */ 
+
+/* styling login */
+
+.login-container {
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-container :hover {
+
+  cursor: pointer;
+
+}
+
+.toggle-password {
+    cursor: pointer;
+}
+/* end login */
+
+/* news */
+
+.news-container {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+}
+
+.news-form-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+select.form-select {
+    height: calc(2.25rem + 2px); 
+    padding: 0.375rem 0.75rem; 
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.375rem;
+}
+
+/* end of news */ 
