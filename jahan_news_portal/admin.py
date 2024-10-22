@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import NewsModel,CommentNewsModel,ReplyComment
+from .models import NewsModel,CommentNewsModel,UserProfileModel
 # Register your models here.
 
 admin.site.register(NewsModel)
 admin.site.register(CommentNewsModel)
-admin.site.register(ReplyComment)
+admin.site.register(UserProfileModel)

@@ -9,7 +9,7 @@ urlpatterns = [
     path("readnews/<int:pk>/<str:decision>/",views.ReadNews.as_view(),name="readnews"),
     path("search/<str:category>/",views.Search.as_view(),name="search"),
     path("login/",views.UserLoginView.as_view(),name="account_login"),
-    
+    path("settingprofile/",views.UserProfileView.as_view(),name="profile"),
 
 
 ]

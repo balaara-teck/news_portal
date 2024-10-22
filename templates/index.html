@@ -1,136 +1,229 @@
-<!DOCTYPE html>
-{% load static %}
-{% load humanize %}
+<!doctype html>
+{% load static %} {% load humanize %}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title%}Latest News | Nustrat Admadiyya College {%endblock title%}</title>
-    <link rel="stylesheet" href="{% static 'css/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'icon/bootstrap-icons.css' %}"> 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            {%block title%}Laters News | Nusrat Jahan Admadiyya College
+            {%endblock title%}
+        </title>
+        <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
+        <link rel="stylesheet" href="{% static 'icon/bootstrap-icons.css' %}" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+        />
+    </head>
+    <body class="bg-body-tertiary">
+        <!-- Navbar -->
+        <header>
+            {% block header %}
+            <nav class="navbar navbar-expand-md bg-body-tertiary">
+                <div class="container-fluid">
+                    <a class="navbar-brand" href="{% url 'home' %}">
+                        <img
+                            class="logo"
+                            src="{% static 'images/logo.jpeg' %}"
+                            alt=""
+                        />
+                    </a>
+                    <div class="text-end d-block d-md-none">
+                        {% if request.user.is_authenticated %}
+                        <a
+                            class="text-decoration-none"
+                            href="{% url 'account_logout' %}"
+                            >Logout</a
+                        >
+                        {%else%}
+                        <a
+                            class="text-decoration-none"
+                            href="{% url 'account_login' %}"
+                            >Login</a
+                        >
+                        {%endif%}
+                        <button
+                            class="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportedContent"
+                            aria-controls="navbarSupportedContent"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                    </div>
+                    <div
+                        class="collapse navbar-collapse"
+                        id="navbarSupportedContent"
+                    >
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link nav-links"
+                                    href="{% url 'home' %}"
+                                    >Home</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">About Us</a>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link"
+                                    href="{% url 'createnews' %}"
+                                    >Add+</a
+                                >
+                            </li>
 
-</head>
-<body class="bg-body-tertiary">
-    <!-- Navbar -->
-    <header>
-    {% block header %}
-    <nav class="navbar navbar-expand-md bg-body-tertiary">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="{% url 'home' %}">
-            <img class="logo" src="{% static 'images/logo.jpeg' %}" alt="">
-          </a>
-          <div class="text-end d-block d-md-none">
-            {% if request.user.is_authenticated %}
-            <a class="text-decoration-none" href="{% url 'account_logout' %}"  >Logout</a>
-            {%else%}
-            <a class="text-decoration-none" href="{% url 'account_login' %}" >Login</a>
-            {%endif%}
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-          </div>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link nav-links"  href="{% url 'home' %}">Home</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">About Us</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{% url 'createnews' %}">Add+</a>
-              </li>
-              
-              <li class="nav-item">
-                {% if request.user.is_authenticated %}
-                <a href="{% url 'account_logout' %}" class="nav-link" >Logout</a>
-                {%else%}
-                <a href="{% url 'account_login' %}" class="nav-link" >Login</a>
-                {%endif%}
-              </li>
-            </ul>
-            <form class="d-flex me-2" method="POST" action="{% url 'search' 'searchresult' %}" role="search">
-              {% csrf_token %}
-              <input class="form-control me-2" name="input" type="search" placeholder="Search news..." aria-label="Search">
-              <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-            <a type="button"  href="{% url 'account_signup' %}"  class="btn btn-dark ">
-              Signup
-            </a>
-          </div>
-        </div>
-    </nav>
-    {% endblock header %}
-    </header>
-    <main>
-    {% block content %}
-    <div class="container-fluid">
-        <h1 class="text-center pt-3 mb-4">Latest News</h1>
-        {% if messages %}
-        {% for message in messages %}
-            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} small p-1 text-center">
-                {{ message }}
-            </div>
-        {% endfor %}
-        {% endif %}
-        <!-- Horizontal category  -->
-        <div class="row text-center horizontal-categories d-block">
-            <a href="{% url 'home'%}">General</a>
-            <a href="{% url 'search' 'Politics' %}">Politics</a>
-            <a href="{% url 'search' 'Sports' %}">Sports</a>
-            <a href="{% url 'search' 'Technology' %}">Technology</a>
-            <a href="{% url 'search' 'Entertainment' %}">Entertainment</a>
-            <a href="{% url 'search' 'Health' %}">Health</a>
-            <a href="{% url 'search' 'Business' %}">Business</a>
-            <a href="{% url 'search' 'Culture' %}">Culture</a>
-            <a href="{% url 'search' 'Science' %}">Science</a>
-            <a href="{% url 'search' 'Education' %}">Education</a>
-            <a href="{% url 'search' 'Africa' %}">Africa</a>
-            <a href="{% url 'search' 'World' %}">World</a>
-        </div>
-        <div class="row">
-            <!--iterative card to be used -->
-            {% if news %}
-            {% for news in news reversed %}
-            <div class="col-md-6 col-xl-4">
-                <div class="card news-card">
-                    <div class="card-body">
-                        <h5 class="news-title">
-                            <a href="{% url 'readnews' news.id  news.title %}" class="text-dark">{{news.title|truncatewords:10}}</a>
-                        </h5>
-                        <p class="news-date">{{news.date}}</p>
-                        <p class="news-body">{{news.body|truncatewords:17}}</p>
-                        <a href="{% url 'readnews' news.id news.title %}" class="btn btn-primary btn-sm">Read More</a>
+                            <li class="nav-item">
+                                {% if request.user.is_authenticated %}
+                                <a
+                                    href="{% url 'account_logout' %}"
+                                    class="nav-link"
+                                    >Logout</a
+                                >
+                                {%else%}
+                                <a
+                                    href="{% url 'account_login' %}"
+                                    class="nav-link"
+                                    >Login</a
+                                >
+                                {%endif%}
+                            </li>
+                        </ul>
+                        <form
+                            class="d-flex me-2"
+                            method="POST"
+                            action="{% url 'search' 'searchresult' %}"
+                            role="search"
+                        >
+                            {% csrf_token %}
+                            <input
+                                class="form-control me-2"
+                                name="input"
+                                type="search"
+                                placeholder="Search news..."
+                                aria-label="Search"
+                            />
+                            <button
+                                class="btn btn-outline-success"
+                                type="submit"
+                            >
+                                Search
+                            </button>
+                        </form>
+                        {% if request.user.is_authenticated %}
+
+                        <small class="profile-container">
+                            <a href="{% url 'profile' %}">
+                                <img
+                                    src="{{ profile_pic_url }}"
+                                    alt="Profile Picture"
+                                    class="profile-picture"
+                                />
+                            </a>
+                        </small>
+
+                        {% else %}
+                        <a
+                            type="button"
+                            href="{% url 'account_signup' %}"
+                            class="btn btn-dark"
+                        >
+                            Signup
+                        </a>
+                        {% endif %}
                     </div>
                 </div>
+            </nav>
+            {% endblock header %}
+        </header>
+        <main>
+            {% block content %}
+            <div class="container-fluid">
+                <h1 class="text-center pt-3 mb-4">Latest News</h1>
+                {% if messages %} {% for message in messages %}
+                <div
+                    class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %} small p-1 text-center"
+                >
+                    {{ message }}
+                </div>
+                {% endfor %} {% endif %}
+                <!-- Horizontal category  -->
+                <div class="row text-center horizontal-categories d-block">
+                    <a href="{% url 'home'%}">General</a>
+                    <a href="{% url 'search' 'Politics' %}">Politics</a>
+                    <a href="{% url 'search' 'Sports' %}">Sports</a>
+                    <a href="{% url 'search' 'Technology' %}">Technology</a>
+                    <a href="{% url 'search' 'Entertainment' %}"
+                        >Entertainment</a
+                    >
+                    <a href="{% url 'search' 'Health' %}">Health</a>
+                    <a href="{% url 'search' 'Business' %}">Business</a>
+                    <a href="{% url 'search' 'Culture' %}">Culture</a>
+                    <a href="{% url 'search' 'Science' %}">Science</a>
+                    <a href="{% url 'search' 'Education' %}">Education</a>
+                    <a href="{% url 'search' 'Africa' %}">Africa</a>
+                    <a href="{% url 'search' 'World' %}">World</a>
+                </div>
+                <div class="row">
+                    <!--iterative card to be used -->
+                    {% if news %} {% for news in news reversed %}
+                    <div class="col-md-6 col-xl-4">
+                        <div class="card news-card">
+                            <div class="card-body">
+                                <h5 class="news-title">
+                                    <a
+                                        href="{% url 'readnews' news.id  news.title %}"
+                                        class="text-dark"
+                                        >{{news.title|truncatewords:10}}</a
+                                    >
+                                </h5>
+                                <p class="news-date">{{news.date}}</p>
+                                <p class="news-body">
+                                    {{news.body|truncatewords:17}}
+                                </p>
+                                <a
+                                    href="{% url 'readnews' news.id news.title %}"
+                                    class="btn btn-primary btn-sm"
+                                    >Read More</a
+                                >
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor%} {% else %}
+                    <div class="text-center no-news">
+                        <h1>No Results Found!</h1>
+                        <p>
+                            Sorry, we could not find any news related to
+                            <strong>"{{category}}"</strong>.
+                        </p>
+                        <p>
+                            Try adjusting your keywords or explore our latest
+                            stories below.
+                        </p>
+                    </div>
+                    {% endif%}
+                    <!-- end  of iterative cart-->
+                </div>
             </div>
-            {% endfor%}
-            {% else %}
-            <div class="text-center no-news">
-              <h1>No Results Found!</h1>
-              <p>Sorry, we could not find any news related to <strong>"{{category}}"</strong>.</p>
-              <p>Try adjusting your keywords or explore our latest stories below.</p>
+            {% endblock content%}
+        </main>
+        <footer class="bg-tertiary text-dark mt-2 p-3 text-center">
+            <hr />
+            <div class="container">
+                <p>&copy; 2024 News Jahan. All Rights Reserved.</p>
+                <p>
+                    <a href="/about">About Us</a> |
+                    <a href="/contact">Contact</a> |
+                    <a href="/privacy-policy">Privacy Policy</a>
+                </p>
             </div>
-            {% endif%}               
-            <!-- end  of iterative cart-->                  
-      </div>
-    </div>
-    {% endblock content%}
-    </main>
-    <footer class="bg-tertiary text-dark mt-2 p-3 text-center">
-      <hr>
-        <div class="container">
-            <p>&copy; 2024 News Jahan. All Rights Reserved.</p>
-            <p>
-                <a href="/about" >About Us</a> |
-                <a href="/contact" >Contact</a> |
-                <a href="/privacy-policy" >Privacy Policy</a>
-            </p>
-        </div>
-    </footer>
-    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'js/index.js' %}"></script>
-</body>
+        </footer>
+        <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'js/index.js' %}"></script>
+    </body>
 </html>
