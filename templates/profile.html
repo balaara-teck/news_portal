@@ -13,7 +13,7 @@
         {% csrf_token %}
         <div class="row g-4">
             <!-- Profile Picture Column -->
-            <div class="col-md-5 d-flex justify-content-center align-items-center">
+            <div class="col-md-6 d-flex justify-content-center align-items-center user-detail-container">
                 <div class="image-wrapper position-relative">
                     <img
                         src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static 'images/logo.jpeg' %}{% endif %}"
@@ -36,7 +36,7 @@
             </div>
 
             <!-- Profile Details Column -->
-            <div class="col-md-7">
+            <div class="col-md-6">
                 <div class="text-center mb-4">
                     <h4 class="font-weight-bold" style="color: #333">
                         <b>Username: <i>{{ user.username }}</i></b>
@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="d-flex flex-column gap-3">
+                    <div class="d-flex flex-column gap-3 user-detail-container">
                         <div class="form-group">
                             <label for="first_name" class="font-weight-semibold">First Name</label>
                             <input

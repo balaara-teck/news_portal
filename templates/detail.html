@@ -6,12 +6,12 @@
 <main id="news-main" class="">
     <div class="news-detail">
         <div class="news-section">
-            <h1>{{news.title}}</h1>
+            <h1 class="text-center">{{news.title}}</h1>
             <p class="date-posted">Posted on: {{news.date}}</p>
             <p class="news-content">{{news.body|linebreaks}}</p>
         </div>
         <div class="comments-sidebar">
-            <h2>Comments:{{no_of_comments}}K</h2>
+            <h2 class="text-center"><strong>Comments: {{no_of_comments}}</strong></h2>
             <hr />
             <div class="comments">
                 {% for comment in comments reversed %}
@@ -21,7 +21,7 @@
                             class="profile-pic"
                             src="{% if comment.user.image %}{{comment.user.image.url}}{% else %}{% static 'images/logo.jpeg' %}{% endif %}"
                             alt="Profile Picture"
-                        /> {{comment.user.user.first_name}}</strong
+                        /> {%if comment.user.user.first_name %} {{comment.user.user.first_name}}{% else %}{{comment.user.user}}{%endif%}</strong
                     >
                     <p class="m-0">{{comment.body}}</p>
                     <p class="comment-time m-0 text-info">

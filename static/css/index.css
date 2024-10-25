@@ -134,6 +134,13 @@ main {
     color: #495057;
 }
 
+.user-detail-container {
+    box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.4);
+    padding: 20px;
+}
+.user-detail-container input {
+    box-shadow: 3px 5px 20px rgba(0, 0, 0, 0.4);
+}
 /* end of profile.html */
 
 
@@ -296,10 +303,10 @@ main {
 
 .logout-confirmation {
     background-color: #f8f9fa;
-    padding: 30px;
+    padding: 10pxpx;
     border: 1px solid #ddd;
     border-radius: 10px;
-    width: 50%;
+    max-width: 600px;
     margin: 100px auto;
 }
 
