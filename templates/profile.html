@@ -1,41 +1,37 @@
-{% extends "index.html" %} {% load static %} {% block title %}Setting User
-Profile | Nustrat Admadiyya College{% endblock title %} {% block content %}
+{% extends "index.html" %} 
+{% load static %} 
+{% block title %}Setting User Profile | Nustrat Admadiyya College{% endblock title %} 
+{% block content %}
 
-<div class="container userprofile-container">
+<div class="container userprofile-container py-5">
     <form
         method="POST"
         enctype="multipart/form-data"
-        class="card profile-card p-4 shadow-lg border-0"
-        style="width: 100%; max-width: 800px"
+        class="card profile-card p-4 shadow-lg border-0 mx-auto"
+       
     >
         {% csrf_token %}
-        <div class="row">
+        <div class="row g-4">
             <!-- Profile Picture Column -->
-            <div class="col-md-5 d-flex justify-content-center mb-4">
-                <div class="image-wrapper">
+            <div class="col-md-5 d-flex justify-content-center align-items-center">
+                <div class="image-wrapper position-relative">
                     <img
-                        src="#"
+                        src="{% if profile.image %}{{ profile.image.url }}{% else %}{% static 'images/logo.jpeg' %}{% endif %}"
                         alt="Profile Picture"
-                        class="userprofile-image shadow-lg"
+                        class="userprofile-image shadow-lg rounded-circle border"
                         id="profilePicturePreview"
+                        onclick="document.getElementById('profilePictureInput').click();"
+                        style="cursor: pointer; width: 300px; height: 300px; object-fit: cover;"
+                    />
+                    <input
+                        type="file"
+                        name="image"
+                        id="profilePictureInput"
+                        accept="image/*"
+                        onchange="previewProfilePicture(event);"
                         style="display: none"
                     />
-                    <div
-                        id="placeholder"
-                        class="placeholder-image"
-                        onclick="document.getElementById('profilePictureInput').click();"
-                    >
-                        <span id="placeholderText">Click to upload image</span>
-                    </div>
-                    <div id="profilePictureForm" style="display: none">
-                        <input
-                            type="file"
-                            name="image"
-                            id="profilePictureInput"
-                            accept="image/*"
-                            onchange="previewProfilePicture(event);"
-                        />
-                    </div>
+                    
                 </div>
             </div>
 
@@ -43,69 +39,42 @@ Profile | Nustrat Admadiyya College{% endblock title %} {% block content %}
             <div class="col-md-7">
                 <div class="text-center mb-4">
                     <h4 class="font-weight-bold" style="color: #333">
-                        {{ user.username }}
+                        <b>Username: <i>{{ user.username }}</i></b>
                     </h4>
-                    <small class="text-muted"
-                        >Member since {{ user.date_joined|date:"F Y" }}</small
-                    >
+                    <small class="text-muted">Member since {{ user.date_joined|date:"F Y" }}</small>
                 </div>
 
-                <div class="card-body p-5">
+                <div class="card-body">
                     <div class="d-flex flex-column gap-3">
                         <div class="form-group">
-                            <label
-                                for="first_name"
-                                class="font-weight-semibold text-muted"
-                                >First Name</label
-                            >
+                            <label for="first_name" class="font-weight-semibold">First Name</label>
                             <input
                                 type="text"
-                                class="form-control input-field form-control-lg"
+                                class="form-control form-control-lg"
                                 id="first_name"
                                 name="first_name"
                                 value="{{ user.first_name }}"
                                 placeholder="Enter your first name"
                             />
                         </div>
+
                         <div class="form-group">
-                            <label
-                                for="last_name"
-                                class="font-weight-semibold text-muted"
-                                >Last Name</label
-                            >
+                            <label for="last_name" class="font-weight-semibold">Last Name</label>
                             <input
                                 type="text"
-                                class="form-control input-field form-control-lg"
+                                class="form-control form-control-lg"
                                 id="last_name"
                                 name="last_name"
                                 value="{{ user.last_name }}"
                                 placeholder="Enter your last name"
                             />
                         </div>
+
                         <div class="form-group">
-                            <label
-                                for="phone"
-                                class="font-weight-semibold text-muted"
-                                >Phone Number</label
-                            >
-                            <input
-                                type="text"
-                                class="form-control input-field form-control-lg"
-                                id="phone"
-                                name="phone"
-                                value="{{ user.phone }}"
-                                placeholder="Enter your phone number"
-                            />
-                        </div>
-                        <div class="form-group">
-                            <label
-                                for="email"
-                                class="font-weight-semibold text-muted"
-                                >Email</label
-                            >
+                            <label for="email" class="font-weight-semibold">Email</label>
                             <input
                                 type="email"
-                                class="form-control input-field form-control-lg"
+                                class="form-control form-control-lg"
                                 id="email"
                                 name="email"
                                 value="{{ user.email }}"
@@ -113,12 +82,7 @@ Profile | Nustrat Admadiyya College{% endblock title %} {% block content %}
                             />
                         </div>
 
-                        <button
-                            type="submit"
-                            class="btn btn-primary mt-4 w-100"
-                        >
-                            Update Profile
-                        </button>
+                        <button type="submit" class="btn btn-primary mt-4 w-100">Update Profile</button>
                     </div>
                 </div>
             </div>
@@ -133,11 +97,11 @@ Profile | Nustrat Admadiyya College{% endblock title %} {% block content %}
         reader.onload = function () {
             const output = document.getElementById("profilePicturePreview");
             output.src = reader.result;
-            output.style.display = "block";
-            document.getElementById("placeholder").style.display = "none";
+            document.getElementById("profilePicturePreview").style.display = "block";
         };
         reader.readAsDataURL(event.target.files[0]);
     }
 </script>
+
 
 {% endblock content %}

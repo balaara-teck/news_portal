@@ -1,0 +1,24 @@
+{% extends "index.html" %}
+{% load static %}
+{% block title %}Confirm Logout | Nustrat Admadiyya College{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="logout-confirmation text-center py-5">
+        <h2 class="text-danger">Are you sure you want to log out?</h2>
+        <p class="lead">You will be logged out of your account and will need to sign in again to continue.</p>
+
+        <!-- Confirmation and Cancel Buttons -->
+        <form method="POST" class="mt-4" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger btn-lg">Yes, log me out</button>
+            <a href="javascript:history.back()" class="btn btn-secondary btn-lg">Go Back</a>
+
+        </form>
+    </div>
+</div>
+<style>
+    
+
+</style>
+{% endblock content %}

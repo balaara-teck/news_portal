@@ -34,8 +34,7 @@
                     <div class="text-end"><a  href="{% url 'account_reset_password' %}" class="text-decoration-none small">Forgot password?</a></div>
                     {% if form.password.errors %}
                         <small class="text-danger">{{ form.password.errors.0 }}</small>
-                    {% endif %}
-                    
+                    {% endif %}                 
                   </div>
                 <div class="form-check mb-3">
                     <input type="checkbox" class="form-check-input" id="remember" name="remember">

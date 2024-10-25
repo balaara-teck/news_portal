@@ -14,19 +14,24 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 import requests
 from django.core.files.base import ContentFile
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-from django.core.files.base import ContentFile
-from allauth.socialaccount.models import SocialAccount  # Ensure you have this import
-import requests
+def profile(user):
+    try:
+        profile, created = UserProfileModel.objects.get_or_create(user=user)
+        return profile
+    except:
+        return None
 
-class UserProfileView(View):
+class UserProfileView(LoginRequiredMixin,View):
     form_class = UserProfileForm
     template_name = "profile.html"
+    login_url = reverse_lazy("account_login")
 
     def get(self, request, *args, **kwargs):
         form = self.form_class()
-        return render(request, self.template_name, {'form': form})
+        return render(request, self.template_name, {"profile":profile(request.user)})
 
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST, request.FILES)
@@ -39,19 +44,20 @@ class UserProfileView(View):
             # Get the uploaded image
             uploaded_image = form.cleaned_data.get("image")
 
-            # Update user fields from the form
             request.user.first_name = request.POST.get("first_name")
             request.user.last_name = request.POST.get("last_name")
+            request.user.email = request.POST.get("email")
+
             request.user.save()
 
             # Handle image upload
             if uploaded_image:
-                # Delete the old image if it exists
+
                 if profile.image:
-                    profile.image.delete()  # Remove old image
-                profile.image = uploaded_image  # Assign the new image
+                    profile.image.delete()
+                profile.image = uploaded_image
             else:
-                # If no image uploaded, check for a social account
+
                 social_account = SocialAccount.objects.filter(user=request.user).first()
                 if social_account:
                     profile_pic_url = social_account.extra_data.get('picture')
@@ -67,26 +73,24 @@ class UserProfileView(View):
             profile.save()  # Save the profile (new or updated)
             return redirect(reverse_lazy("home"))
 
-        return render(request, self.template_name, {'form': form})
-
-
-
-
+        return render(request, self.template_name, {"profile":profile(request.user)})
 
 class UserSignupView(SignupView):
-    success_url = reverse_lazy("profile")
     form_class = UserSignupForm
 
 class UserLoginView(LoginView):
     form_class = UserLoginForm
+
 
 class HomeView(View):
     template_name = "index.html"
     success_url = reverse_lazy("home")
 
     def get(self,request):
+        
+
         news = NewsModel.objects.all()
-        context = {"news":news}
+        context = {"news":news,"profile":profile(request.user)}
         return render(request,self.template_name,context)
 
 class NewsView(View):
@@ -95,7 +99,7 @@ class NewsView(View):
     success_url = reverse_lazy("home")
 
     def get(self,request):
-        return render(self.request,self.template_name)
+        return render(self.request,self.template_name,{"profile":profile(request.user)})
 
     def post(self,request,*args,**kwargs):
         form = self.form_class(request.POST)
@@ -105,9 +109,9 @@ class NewsView(View):
             news.comments = 0
             news.save()
             return redirect(self.success_url)
-        return render(request,self.template_name)
+        return render(request,self.template_name,{"profile":profile(request.user)})
 
-class ReadNews(View):
+class ReadNews(LoginRequiredMixin,View):
     template_name = "detail.html"
 
     def get(self,request,*args,**kwargs):
@@ -116,34 +120,30 @@ class ReadNews(View):
         news = NewsModel.objects.filter(id=news_id).first()
         comments = CommentNewsModel.objects.filter(news=news)
         no_of_comments = len(comments)
-        context = {"news":news,"comments":comments,"no_of_comments":no_of_comments}
-
+        context = {"news":news,"comments":comments,"no_of_comments":no_of_comments,"profile":profile(request.user)}
 
         return render(request,self.template_name,context)
 
     def post(self,request,*args,**kwargs):
 
-        decision = self.kwargs.get("decision")
+
+        profile, created = UserProfileModel.objects.get_or_create(user=request.user)
         news_id = self.kwargs.get("pk")
         news = NewsModel.objects.filter(id=news_id).first()
         comments = CommentNewsModel.objects.filter(news=news)
         no_of_comments = len(comments)
         context = {"news":news,"comments":comments,"no_of_comments":no_of_comments}
 
-        if decision == "comment":
-            form = CommentNewsForm(request.POST)
+        form = CommentNewsForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = profile
+            comment.news = news
+            comment.save()
 
-            if form.is_valid():
-                comment = form.save(commit=False)
-                comment.user = self.request.user
-                comment.news = news
-                comment.save()
-                return redirect(reverse("readnews",kwargs={"pk":news_id,"decision":news.title}))
-            return redirect(reverse("readnews",kwargs={"pk":news_id,"decision":news.title}))
-        else:
-             form = ReplyComment(request.POST)
-             if form.is_valid():
-                reply = form.save(commit=False)
+            return redirect(reverse("readnews",kwargs={"pk":news_id,"title":news.title}))
+        return redirect(reverse("readnews",kwargs={"pk":news_id,"title":news.title}))
+
 
 class Search(View):
     template_name = "index.html"

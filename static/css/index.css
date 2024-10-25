@@ -41,8 +41,11 @@ header {
 
 .profile-pic {
     width: 30px;
+    height: 30px;
     filter: brightness(98%);
     border-radius: 50%;
+    object-fit: cover;
+
 }
 
 header,
@@ -116,55 +119,24 @@ main {
 /* end of index.html styling */
 
 /* styling of profile.html */
-.profile-card {
-    border-radius: 20px; /* Rounded card corners */
-}
-
-.userprofile-image {
-    width: 300px; /* Increased width for the profile image */
-    height: 300px; /* Increased height for the profile image */
-    border: 5px solid #5a67d8; /* Border color */
-    border-radius: 50%; /* Circular shape */
-    object-fit: cover; /* Cover the area without distortion */
-    cursor: pointer; /* Pointer cursor for image */
-}
-
 .userprofile-container {
-    min-height: 100vh; /* Full height of viewport */
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    padding-top: 50px;
+}
+.image-wrapper:hover {
+    opacity: 0.85;
+    transition: opacity 0.3s ease-in-out;
+}
+.profile-card {
+    border-radius: 10px;
+    background: #f9f9f9;
+}
+.form-group label {
+    color: #495057;
 }
 
-.input-field {
-    border-radius: 10px; /* Rounded input fields */
-}
-
-.submit-button {
-    border-radius: 10px; /* Rounded button corners */
-    background-color: #5a67d8; /* Button background color */
-    border: none; /* No border */
-}
-
-.image-wrapper {
-    position: relative;
-    display: flex;
-    justify-content: center; /* Center the image */
-    align-items: center; /* Center the image vertically */
-}
-
-.placeholder-image {
-    background-color: #e2e8f0; /* Light gray background */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%; /* Circular shape */
-    width: 300px; /* Size of the placeholder */
-    height: 300px; /* Size of the placeholder */
-    font-size: 24px; /* Font size for the placeholder text */
-    color: #a0aec0; /* Placeholder text color */
-}
 /* end of profile.html */
+
+
 
 /* styling detail.html */
 
@@ -319,6 +291,31 @@ main {
     cursor: pointer;
 }
 /* end login */
+
+/* logout.html styling */
+
+.logout-confirmation {
+    background-color: #f8f9fa;
+    padding: 30px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 50%;
+    margin: 100px auto;
+}
+
+.logout-confirmation h2 {
+    color: #dc3545;
+}
+
+.logout-confirmation p {
+    color: #555;
+}
+
+.logout-confirmation .btn-lg {
+    padding: 10px 20px;
+    margin: 5px;
+}
+/* end of logout.html */
 
 /* news */
 
